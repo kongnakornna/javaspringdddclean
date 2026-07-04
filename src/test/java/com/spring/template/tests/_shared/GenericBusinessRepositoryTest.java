@@ -5,11 +5,11 @@ import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.git.spring_boot_ddd_template._shared.domain.GenericClass;
-import com.git.spring_boot_ddd_template._shared.infrastructure.RepositoryAuth;
-import com.git.spring_boot_ddd_template._shared.infrastructure.repository.interfaces.GenericBusinessRepository;
-import com.git.spring_boot_ddd_template.exception.SystemGlobalException;
-import com.git.spring_boot_ddd_template.exception.models.InfrastructureException;
+import com.icmon._shared.domain.GenericClass;
+import com.icmon._shared.infrastructure.RepositoryAuth;
+import com.icmon._shared.infrastructure.repository.interfaces.GenericBusinessRepository;
+import com.icmon.exception.SystemGlobalException;
+import com.icmon.exception.models.InfrastructureException;
 
 import java.util.List;
 import java.util.Optional;

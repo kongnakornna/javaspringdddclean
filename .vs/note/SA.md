@@ -649,7 +649,7 @@ classDiagram
 ### 10.1 โครงสร้างโปรเจกต์ (Project Structure)
 
 ```
-src/main/java/com/template/app/
+src/main/java/com/icmon/app/
 ├── _shared/                         # ส่วนประกอบร่วม (Generic)
 │   ├── application/                 # Service พื้นฐาน
 │   ├── domain/                      # Entity พื้นฐาน
