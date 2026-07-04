@@ -1,9 +1,5 @@
 # 📁 โครงสร้างโปรเจกต์ Spring Boot DDD Template
-
-ตามที่คุณร้องขอให้วาดโครงสร้างก่อนเขียนโค้ด โดยอิงจากข้อมูลที่มีอยู่ทั้งหมด ผมจะนำเสนอโครงสร้างแบบละเอียดทีละโมดูล พร้อมรอการยืนยันจากคุณก่อนดำเนินการต่อ
-
----
-
+ 
 ## 🏗️ โครงสร้างหลัก (Root Structure)
 
 ```
@@ -304,21 +300,4 @@ public class AuthController {
 ```
 
 ---
-
-## ✅ คำถามยืนยัน
-
-**โมดูลที่ 1: Authentication & Permission**
-
-โครงสร้างข้างต้นครอบคลุม:
-- ✅ Application Layer (Services + Use Cases)
-- ✅ Domain Layer (Entities + Value Objects + Enums)
-- ✅ Infrastructure Layer (Repositories + Security + Entities + Mappers)
-- ✅ Presentation Layer (Controllers + DTOs + Validators)
-
-**กรุณาตอบ:**
-
-1. **ใช่** → ดำเนินการโมดูลถัดไป (Job Card Management)
-2. **ไม่** → แจ้งสิ่งที่ต้องการแก้ไข/เพิ่มเติม
-3. **รอ** → หยุดพักเพื่อปรึกษา/ปรับเปลี่ยน
-
-รอการตอบรับจากคุณครับ 🙏
+ 
