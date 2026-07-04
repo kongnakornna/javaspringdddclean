@@ -475,10 +475,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Lucas Batista Pereira**
+**kongnakorn jantakun**
 
 ---
-
-⭐ **If this template was useful to you, consider giving it a star in the repository!**
-
-*Developed with ❤️ for the Java/Spring Boot community*
