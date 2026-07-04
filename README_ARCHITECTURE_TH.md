@@ -926,7 +926,7 @@ classDiagram
 ### 10.1 โครงสร้างโปรเจกต์ (Project Structure)
 
 ```
-src/main/java/com/template/app/
+src/main/java/com/icmon/app/
 ├── _shared/                         # ส่วนประกอบร่วม (Generic)
 │   ├── application/                 # Service พื้นฐาน
 │   │   ├── GenericService.java
@@ -1807,7 +1807,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ### D. การปรับแต่งระบบ
 
 #### การเพิ่มโมดูลใหม่
-1. สร้างโครงสร้างใน `src/main/java/com/template/app/modules/[your_module]/`
+1. สร้างโครงสร้างใน `src/main/java/com/icmon/app/modules/[your_module]/`
 2. สร้าง Controller, Service, Repository ตามแพทเทิร์น
 3. สร้าง Entity และ DTO
 4. ลงทะเบียนใน `spring.factories` (ถ้าต้องการ Auto-configuration)

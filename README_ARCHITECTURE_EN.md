@@ -891,7 +891,7 @@ classDiagram
 ### 10.1 Project Structure
 
 ```
-src/main/java/com/template/app/
+src/main/java/com/icmon/app/
 ├── _shared/                         # Shared Components
 │   ├── application/                 # Base Services
 │   │   ├── GenericService.java
@@ -1557,7 +1557,7 @@ The system supports 18 languages using Spring i18n:
 ### D. System Customization
 
 #### Adding New Modules
-1. Create structure in `src/main/java/com/template/app/modules/[your_module]/`
+1. Create structure in `src/main/java/com/icmon/app/modules/[your_module]/`
 2. Create Controller, Service, Repository following the pattern
 3. Create Entity and DTO
 4. Register in `spring.factories` (if auto-configuration is needed)

@@ -298,10 +298,10 @@ By following this structure, you automatically inherit:
 ### Creating a New Module
 ```bash
 # Directory structure
-mkdir -p src/main/java/com/template/app/modules/your_module/{application/{interfaces,impl},domain,infrastructure/{repository,mapper}}
+mkdir -p src/main/java/com/icmon/app/modules/your_module/{application/{interfaces,impl},domain,infrastructure/{repository,mapper}}
 
 # Tests
-mkdir -p src/test/java/com/template/app/modules/your_module/{application,domain,infrastructure}
+mkdir -p src/test/java/com/icmon/app/modules/your_module/{application,domain,infrastructure}
 ```
 
 ### Running Module Tests

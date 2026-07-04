@@ -38,7 +38,7 @@ This template was carefully designed to accelerate backend application developme
 The project follows a well-defined structure that clearly separates responsibilities:
 
 ```
-src/main/java/com/template/app/
+src/main/java/com/icmon/app/
 ├── _shared/                    # Shared components
 │   ├── application/           # Generic application services
 │   ├── domain/               # Generic domain entities
@@ -395,7 +395,7 @@ mvn test jacoco:report
 
 ### Adding New Modules
 
-1. **Create the module structure** in `src/main/java/com/template/app/modules/[your_module]/`
+1. **Create the module structure** in `src/main/java/com/icmon/app/modules/[your_module]/`
 
 ```
 your_module/
