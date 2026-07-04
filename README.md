@@ -963,6 +963,8 @@ This architecture provides:
 ✅ **Complete observability**
 ✅ **Integrated security**
 
+![alt text](web.png)
+
 The template serves as a solid foundation for complex enterprise applications, maintaining simplicity for smaller projects through intelligent use of generic structures and well-established conventions.
 
 ![alt text](docker.png)
