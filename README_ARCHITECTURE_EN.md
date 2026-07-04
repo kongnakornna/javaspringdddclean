@@ -1,6 +1,51 @@
 # Auto Repair Support Management System
 ## Project Documentation - Complete English Version
 
+## 🏗️ Root Structure
+
+```
+spring-boot-ddd-template/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── template/
+│   │   │           └── app/
+│   │   │               ├── Application.java
+│   │   │               ├── _shared/
+│   │   │               ├── modules/
+│   │   │               ├── configuration/
+│   │   │               ├── exception/
+│   │   │               ├── logging/
+│   │   │               └── utils/
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-dev.yml
+│   │       ├── application-prod.yml
+│   │       ├── application-test.yml
+│   │       ├── static/
+│   │       │   └── template/
+│   │       │       └── jrxml/
+│   │       ├── i18n/
+│   │       └── db/
+│   │           └── migration/
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── template/
+│                   └── app/
+│                       ├── _shared/
+│                       └── modules/
+├── docker/
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   └── .env.example
+├── pom.xml
+├── README.md
+├── ARCHITECTURE.md
+└── LICENSE
+```
+
 ---
 
 | Item | Details |
