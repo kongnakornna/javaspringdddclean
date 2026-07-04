@@ -1,0 +1,37 @@
+server:
+  port: ${SERVER_PORT}
+  servlet:
+    context-path: ${SERVER_SERVLET_CONTEXT_PATH}
+
+spring:
+  application:
+    name: app-prod
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT}
+        default_schema: ${SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA}
+  data:
+    mongodb:
+      host: ${DATA_MONGODB_HOST}
+      port: ${DATA_MONGODB_PORT}
+      database: ${DATA_MONGODB_DATABASE}
+      username: ${DATA_MONGODB_USERNAME}
+      password: ${DATA_MONGODB_PASSWORD}
+      authentication-database: ${DATA_MONGODB_AUTHENTICATION_DATABASE}
+  neo4j:
+    uri: ${DATA_NEO4J_URI}
+    authentication:
+      username: ${DATA_NEO4J_USER}
+      password: ${DATA_NEO4J_PASSWORD}
+
+jwt:
+  publicKey: ${JWT_PUBLIC_KEY}
+  privateKey: ${JWT_PRIVATE_KEY}

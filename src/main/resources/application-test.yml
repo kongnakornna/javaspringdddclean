@@ -1,0 +1,14 @@
+server:
+  port: 1080
+  servlet:
+    context-path: /api
+  ssl:
+    enabled: false
+
+spring:
+  application:
+    name: app-test
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
