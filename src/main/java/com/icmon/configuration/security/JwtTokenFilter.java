@@ -8,12 +8,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.icmon.logging.LogService;
+import com.icmon.module.auth.infrastructure.security.CustomUserDetailsService;
 
 import java.io.IOException;
 import java.security.Key;
@@ -30,6 +32,7 @@ import java.util.UUID;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final LogService logService;
+    private final CustomUserDetailsService customUserDetailsService; 
 
     @Value("${jwt.privateKey}")
     private String privateKey;
@@ -37,9 +40,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Value("${jwt.publicKey}")
     private String publicKey;
 
-    public JwtTokenFilter(LogService logService) {
-        this.logService = logService;
-    }
+    public JwtTokenFilter(LogService logService, 
+                            @Lazy CustomUserDetailsService customUserDetailsService) {
+            this.logService = logService;
+            this.customUserDetailsService = customUserDetailsService;
+        }
 
     //TODO: Extrair Roles do JWT e melhorar o tratamento de requisição.
 

@@ -6,6 +6,8 @@ server:
     enabled: false
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: app
   datasource:
@@ -16,7 +18,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -33,6 +35,17 @@ spring:
     authentication:
       username: neo4j
       password: password
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
 
   data:
     mongodb:
