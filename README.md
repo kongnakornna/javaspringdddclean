@@ -963,8 +963,6 @@ This architecture provides:
 ✅ **Complete observability**
 ✅ **Integrated security**
 
-![alt text](web.png)
-
 The template serves as a solid foundation for complex enterprise applications, maintaining simplicity for smaller projects through intelligent use of generic structures and well-established conventions.
 
 ![alt text](docker.png)
@@ -976,3 +974,13 @@ The template serves as a solid foundation for complex enterprise applications, m
 **Mobile : +66955088091 **
 
 ---
+
+![alt text](web.png)
+
+![alt text](docs/web1.png)
+
+![alt text](docs/web2.png)
+
+![alt text](docs/web3.png)
+
+<video controls src="docs/vd.mp4" title="Title"></video>
