@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/v3/api-docs.yaml"
                         ).permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
                         .requestMatchers("/**").authenticated()
                         .anyRequest().authenticated()
                 )

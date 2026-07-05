@@ -21,7 +21,6 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-// ❌ ลบ @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;

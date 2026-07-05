@@ -10,7 +10,7 @@ import com.icmon.exception.models.FailedRequestException;
 
 import java.util.UUID;
 
-abstract class GenericAuthDomainServiceImpl {
+public abstract class GenericAuthDomainServiceImpl {
     protected UUID getUserId() throws SystemGlobalException {
         try {
             String userIdStr = MDC.get("userId");

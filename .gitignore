@@ -121,6 +121,9 @@ application-local.yaml
 application-secret.yml
 application-secret.yaml
 
+app_startup.err
+app_startup.log
+
 # JWT Keys (if generated locally)
 *.pem
 *.p12
