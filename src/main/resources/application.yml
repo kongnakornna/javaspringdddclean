@@ -11,12 +11,22 @@ spring:
   application:
     name: app
   datasource:
-    url: jdbc:postgresql://localhost:5432/icmonapp?useSSL=false
+    url: jdbc:postgresql://localhost:5432/icmonapp
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: HikariPool-1
+      connection-test-query: SELECT 1
+      auto-commit: true
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
       naming:
@@ -24,10 +34,8 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         default_schema: public
         format_sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
   neo4j:
@@ -55,7 +63,28 @@ spring:
       username: mongoadmin
       password: secret
       authentication-database: admin
+logging:
+  enabled: true        # เปิด/ปิด logging ทั้งหมด
+  log-requests: true   # บันทึก HTTP request log
+  log-method-calls: true  # บันทึก method call log
+  log-errors: true     # บันทึก error log
+  level:
+    root: INFO
+    com.icmon: DEBUG
+    com.log: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.zaxxer.hikari: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/app.log
+    max-size: 10MB
+    max-history: 30
 
 jwt:
   publicKey: ${JWT_PUBLIC_KEY}
   privateKey: ${JWT_PRIVATE_KEY}
+

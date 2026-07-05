@@ -11,7 +11,7 @@ services:
     ports:
       - "5439:5432"
     environment:
-      POSTGRES_DB: application-database
+      POSTGRES_DB: icmonapp
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"

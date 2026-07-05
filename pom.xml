@@ -21,7 +21,7 @@
         applying Domain-Driven Design (DDD) and Clean Architecture principles.
         Features generic structures, multi-database support, and advanced monitoring.
     </description>
-    <url>https://github.com/perebati/spring-boot-ddd-template</url>
+    <url>https://github.com/kongnakornna/javaspringdddclean</url>
     <inceptionYear>2025</inceptionYear>
 
     <licenses>
@@ -35,26 +35,26 @@
     <developers>
         <developer>
             <id>perebati</id>
-            <name>Lucas Batista Pereira</name>
-            <email>lucas.bpereira1999@gmail.com</email>
+            <name>kongnakorn jantakun</name>
+            <email>kongnakornjantakun@gmail.com</email>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
             </roles>
-            <timezone>America/Sao_Paulo</timezone>
+            <timezone>asia/bangkok</timezone>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/perebati/spring-boot-ddd-template.git</connection>
-        <developerConnection>scm:git:ssh://github.com:perebati/spring-boot-ddd-template.git</developerConnection>
+        <connection>scm:git:git://github.com/kongnakornna/javaspringdddclean.git</connection>
+        <developerConnection>scm:git:ssh://github.com/kongnakornna/javaspringdddclean.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/perebati/spring-boot-ddd-template</url>
+        <url>https://github.com/kongnakornna/javaspringdddclean</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/perebati/spring-boot-ddd-template/issues</url>
+        <url>https://github.com/kongnakornna/javaspringdddclean/issues</url>
     </issueManagement>
 
     <!-- Version control -->
@@ -235,6 +235,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
@@ -384,6 +389,10 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
     </dependencies>
