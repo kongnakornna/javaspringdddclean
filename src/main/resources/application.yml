@@ -1,7 +1,5 @@
 server:
   port: 1080
-  servlet:
-    context-path: /api
   ssl:
     enabled: false
 
@@ -69,10 +67,10 @@ logging:
   log-method-calls: true  # บันทึก method call log
   log-errors: true     # บันทึก error log
   level:
-    root: INFO
+    root: DEBUG
     com.icmon: DEBUG
     com.log: DEBUG
-    org.springframework.web: INFO
+    org.springframework.web: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     com.zaxxer.hikari: DEBUG
@@ -85,6 +83,6 @@ logging:
     max-history: 30
 
 jwt:
-  publicKey: ${JWT_PUBLIC_KEY}
-  privateKey: ${JWT_PRIVATE_KEY}
+  publicKey: ${JWT_PUBLIC_KEY:default-public-key-for-dev-only}
+  privateKey: ${JWT_PRIVATE_KEY:default-private-key-for-dev-only}
 

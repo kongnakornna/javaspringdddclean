@@ -1,0 +1,22 @@
+package com.icmon.module.purchase.presentation.dto.request;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Data
+public class PurchaseOrderDetailRequestDTO {
+    @NotNull(message = "Part ID is required")
+    private UUID partId;
+
+    @NotNull(message = "Quantity ordered is required")
+    private Integer quantityOrdered;
+
+    @NotNull(message = "Unit price is required")
+    private BigDecimal unitPrice;
+
+    private BigDecimal discount;
+    private String note;
+}

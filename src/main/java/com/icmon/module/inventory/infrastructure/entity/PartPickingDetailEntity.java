@@ -1,0 +1,37 @@
+package com.icmon.module.inventory.infrastructure.entity;
+
+import com.icmon._shared.infrastructure.GenericBusinessEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Entity
+@Table(name = "t_part_picking_detail")
+@Getter
+@Setter
+public class PartPickingDetailEntity extends GenericBusinessEntity {
+
+    @Column(name = "picking_request_id", nullable = false)
+    private UUID pickingRequestId;
+
+    @Column(name = "part_id", nullable = false)
+    private UUID partId;
+
+    @Column(name = "requested_quantity", nullable = false)
+    private int requestedQuantity;
+
+    @Column(name = "picked_quantity")
+    private int pickedQuantity;
+
+    @Column(name = "unit_price", precision = 15, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(name = "total_price", precision = 15, scale = 2)
+    private BigDecimal totalPrice;
+
+    @Column(columnDefinition = "TEXT")
+    private String note;
+}

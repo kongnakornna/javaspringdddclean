@@ -12,9 +12,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;  
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+@Slf4j 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Authentication", description = "Authentication and Authorization APIs")
@@ -34,7 +39,20 @@ public class AuthController {
     @Operation(summary = "User Login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request,
                                                   HttpServletRequest httpRequest) throws SystemGlobalException {
+        // ✅ Log: เริ่มต้นการ Login
+        String clientIp = getClientIp(httpRequest);
+        String userAgent = httpRequest.getHeader("User-Agent");
+        log.info("🔐 [LOGIN] Attempt - username: {}, IP: {}, User-Agent: {}", 
+                 request.getUsername(), clientIp, userAgent);
+
+        long startTime = System.currentTimeMillis();
         LoginResponseDTO response = authService.login(request, httpRequest);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        // ✅ Log: Login สำเร็จ
+        log.info("✅ [LOGIN] Success - username: {}, IP: {}, elapsed: {}ms", 
+                 request.getUsername(), clientIp, elapsedTime);
+
         return ResponseEntity.ok(response);
     }
 
@@ -48,7 +66,19 @@ public class AuthController {
     @RateLimit(limit = 10, duration = 60, keyType = "USER_ID")
     @Operation(summary = "User Logout")
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token) throws SystemGlobalException {
+        // ✅ Log: เริ่มต้น Logout (ไม่บันทึก Token เต็ม)
+        String tokenPreview = token != null && token.length() > 20 
+                ? token.substring(0, 20) + "..." 
+                : "null";
+        log.info("🚪 [LOGOUT] Attempt - token: {}", tokenPreview);
+
+        long startTime = System.currentTimeMillis();
         authService.logout(token);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        // ✅ Log: Logout สำเร็จ
+        log.info("✅ [LOGOUT] Success - elapsed: {}ms", elapsedTime);
+
         return ResponseEntity.ok().build();
     }
 
@@ -62,7 +92,20 @@ public class AuthController {
     @RateLimit(limit = 20, duration = 3600, keyType = "USER_ID")
     @Operation(summary = "Refresh JWT Token")
     public ResponseEntity<LoginResponseDTO> refresh(@RequestParam String refreshToken) throws SystemGlobalException {
-        return ResponseEntity.ok(authService.refreshToken(refreshToken));
+        // ✅ Log: เริ่มต้น Refresh Token
+        String tokenPreview = refreshToken != null && refreshToken.length() > 20 
+                ? refreshToken.substring(0, 20) + "..." 
+                : "null";
+        log.info("🔄 [REFRESH] Attempt - token: {}", tokenPreview);
+
+        long startTime = System.currentTimeMillis();
+        LoginResponseDTO response = authService.refreshToken(refreshToken);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        // ✅ Log: Refresh สำเร็จ
+        log.info("✅ [REFRESH] Success - elapsed: {}ms", elapsedTime);
+
+        return ResponseEntity.ok(response);
     }
 
     /*
@@ -72,10 +115,24 @@ public class AuthController {
         Rate Limit: อนุญาต 3 ครั้งต่อ 1 ชั่วโมง (ป้องกันการสมัครซ้ำหลายครั้ง) / Allows 3 attempts per 1 hour (anti-spam).
     */
     @PostMapping("/register")
-    @RateLimit(limit = 3, duration = 3600, keyType = "IP")
+    @RateLimit(limit = 30, duration = 3600, keyType = "IP")
     @Operation(summary = "Register New User")
-    public ResponseEntity<LoginResponseDTO> register(@Valid @RequestBody RegisterRequestDTO request) throws SystemGlobalException {
-        return ResponseEntity.ok(authService.register(request));
+    public ResponseEntity<LoginResponseDTO> register(@Valid @RequestBody RegisterRequestDTO request,
+                                                     HttpServletRequest httpRequest) throws SystemGlobalException {
+        // ✅ Log: เริ่มต้น Register
+        String clientIp = getClientIp(httpRequest);
+        log.info("📝 [REGISTER] Attempt - username: {}, email: {}, IP: {}", 
+                 request.getUsername(), request.getEmail(), clientIp);
+
+        long startTime = System.currentTimeMillis();
+        LoginResponseDTO response = authService.register(request);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        // ✅ Log: Register สำเร็จ
+        log.info("✅ [REGISTER] Success - username: {}, elapsed: {}ms", 
+                 request.getUsername(), elapsedTime);
+
+        return ResponseEntity.ok(response);
     }
 
     /*
@@ -88,6 +145,49 @@ public class AuthController {
     @RateLimit(limit = 50, duration = 60, keyType = "USER_ID")
     @Operation(summary = "Get Current User Profile")
     public ResponseEntity<UserResponseDTO> getCurrentUser() throws SystemGlobalException {
-        return ResponseEntity.ok(authService.getCurrentUser());
+        // ✅ Log: เรียกดู Profile
+        log.info("👤 [ME] Fetching current user profile");
+
+        long startTime = System.currentTimeMillis();
+        UserResponseDTO response = authService.getCurrentUser();
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        // ✅ Log: ดึง Profile สำเร็จ
+        log.info("✅ [ME] Success - userId: {}, username: {}, elapsed: {}ms", 
+                 response.getId(), response.getUsername(), elapsedTime);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(SystemGlobalException.class)
+    public ResponseEntity<Map<String, String>> handleSystemGlobalException(SystemGlobalException ex) {
+        log.warn("⚠️ [SystemGlobalException] {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "Unauthorized", "message", ex.getMessage()));
+    }
+
+    /*
+        เมธอด Helper สำหรับดึง IP จริงจาก Request (รองรับ Proxy, Load Balancer)
+        Helper method to get real client IP from request (supports Proxy, Load Balancer).
+    */
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Real-IP");
+        }
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        // ถ้ามีหลาย IP (X-Forwarded-For: client, proxy1, proxy2) ใช้ตัวแรก
+        if (ip != null && ip.contains(",")) {
+            ip = ip.split(",")[0].trim();
+        }
+        return ip;
     }
 }
