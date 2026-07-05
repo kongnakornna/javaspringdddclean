@@ -20,6 +20,9 @@ import com.icmon.exception.SystemGlobalException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -158,7 +161,28 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponseDTO getCurrentUser() throws SystemGlobalException {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
+            log.warn("Unauthenticated access to getCurrentUser");
+            throw new SystemGlobalException("User is not authenticated", null);
+        }
+
+        String username = ((UserDetails) auth.getPrincipal()).getUsername();
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new SystemGlobalException("User not found", null));
+
+        log.info("Fetched current user profile: id={}, username={}", userEntity.getId(), username);
+
+        return UserResponseDTO.builder()
+                .id(userEntity.getId())
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .fullName(userEntity.getFullName())
+                .status(userEntity.getStatus())
+                .phoneNumber(userEntity.getPhoneNumber())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .role(userEntity.getRole())
+                .build();
     }
 
     private void saveToken(UUID userId, String token, TokenType tokenType, LocalDateTime expiryDate) {

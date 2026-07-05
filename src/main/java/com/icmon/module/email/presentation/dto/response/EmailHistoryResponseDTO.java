@@ -11,55 +11,55 @@ import java.util.UUID;
 @Schema(description = "ประวัติการส่งอีเมล // Email history response")
 public class EmailHistoryResponseDTO {
 
-    @Schema(description = "ID")
+    @Schema(description = "ID // ID", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
     private UUID id;
 
-    @Schema(description = "Email ID")
+    @Schema(description = "Email ID // Email ID", example = "email-20260705-001")
     private String emailId;
 
-    @Schema(description = "รหัสเทมเพลต // Template code")
+    @Schema(description = "รหัสเทมเพลต // Template code", example = "INV-EMAIL-001")
     private String templateCode;
 
-    @Schema(description = "ประเภทอ้างอิง // Reference type")
+    @Schema(description = "ประเภทอ้างอิง // Reference type", example = "INVOICE")
     private String referenceType;
 
-    @Schema(description = "ID อ้างอิง // Reference ID")
+    @Schema(description = "ID อ้างอิง // Reference ID", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
     private UUID referenceId;
 
-    @Schema(description = "ผู้ส่ง // From email")
+    @Schema(description = "ผู้ส่ง // From email", example = "noreply@icmon.com")
     private String fromEmail;
 
-    @Schema(description = "ผู้รับ // To email")
+    @Schema(description = "ผู้รับ // To email", example = "customer@example.com")
     private String toEmail;
 
-    @Schema(description = "ชื่อผู้รับ // To name")
+    @Schema(description = "ชื่อผู้รับ // To name", example = "สมชาย ใจดี")
     private String toName;
 
-    @Schema(description = "CC")
+    @Schema(description = "CC // CC", example = "manager@example.com")
     private String ccEmail;
 
-    @Schema(description = "BCC")
+    @Schema(description = "BCC // BCC", example = "archive@example.com")
     private String bccEmail;
 
-    @Schema(description = "หัวข้อ // Subject")
+    @Schema(description = "หัวข้อ // Subject", example = "Invoice INV-2026-0001 from ICMON")
     private String subject;
 
-    @Schema(description = "สถานะ // Status")
+    @Schema(description = "สถานะ // Status", example = "SENT")
     private String status;
 
-    @Schema(description = "ความสำคัญ // Priority")
+    @Schema(description = "ความสำคัญ // Priority", example = "NORMAL")
     private String priority;
 
-    @Schema(description = "วันที่ส่ง // Sent at")
+    @Schema(description = "วันที่ส่ง // Sent at", example = "2026-07-05T10:30:00")
     private LocalDateTime sentAt;
 
-    @Schema(description = "ข้อความผิดพลาด // Error message")
+    @Schema(description = "ข้อความผิดพลาด // Error message", example = "Connection timeout")
     private String errorMessage;
 
-    @Schema(description = "จำนวนลองใหม่ // Retry count")
+    @Schema(description = "จำนวนลองใหม่ // Retry count", example = "3")
     private Integer retryCount;
 
-    @Schema(description = "วันที่สร้าง // Created at")
+    @Schema(description = "วันที่สร้าง // Created at", example = "2026-07-05T10:30:00")
     private LocalDateTime createdAt;
 
     public static EmailHistoryResponseDTO fromEntity(EmailHistoryEntity entity) {

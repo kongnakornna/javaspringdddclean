@@ -1,28 +1,48 @@
 package com.icmon.module.inventory.presentation.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
+@Schema(description = "คำขอสร้างข้อมูลอะไหล่หลัก | Part Master Create Request")
 public class PartMasterCreateRequestDTO {
+    @Schema(description = "รหัสอะไหล่ | Part Code", example = "BRK-001")
     private String partCode;
+    @Schema(description = "ชื่ออะไหล่ (ภาษาไทย) | Part Name (Thai)", example = "ผ้าเบรกหน้า")
     private String partName;
+    @Schema(description = "ชื่ออะไหล่ (ภาษาอังกฤษ) | Part Name (English)", example = "Front Brake Pad")
     private String partNameEn;
+    @Schema(description = "รหัสหมวดหมู่ | Category ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private UUID categoryId;
+    @Schema(description = "ยี่ห้อ | Brand", example = "Toyota")
     private String brand;
+    @Schema(description = "รุ่น | Model", example = "Camry 2020")
     private String model;
+    @Schema(description = "หมายเลข OEM | OEM Number", example = "04465-33210")
     private String oemNumber;
+    @Schema(description = "คำอธิบาย | Description", example = "ผ้าเบรกหน้าสำหรับ Toyota Camry")
     private String description;
+    @Schema(description = "หน่วยนับ | Unit", example = "ชิ้น")
     private String unit;
+    @Schema(description = "ระดับการสั่งซื้อซ้ำ | Reorder Level", example = "10")
     private int reorderLevel;
+    @Schema(description = "จำนวนที่สั่งซื้อซ้ำ | Reorder Quantity", example = "50")
     private int reorderQuantity;
+    @Schema(description = "สต็อกขั้นต่ำ | Min Stock", example = "5")
     private int minStock;
+    @Schema(description = "สต็อกสูงสุด | Max Stock", example = "100")
     private int maxStock;
+    @Schema(description = "ต้นทุนต่อหน่วย | Unit Cost", example = "500.00")
     private BigDecimal unitCost;
+    @Schema(description = "ราคาขาย | Selling Price", example = "750.00")
     private BigDecimal sellingPrice;
+    @Schema(description = "รหัสสถานที่จัดเก็บ | Location ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private UUID locationId;
+    @Schema(description = "URL รูปภาพ | Image URL", example = "https://example.com/images/brk-001.jpg")
     private String imageUrl;
+    @Schema(description = "หมายเหตุ | Notes", example = "อะไหล่แท้จากศูนย์")
     private String notes;
 }

@@ -7,12 +7,12 @@ import lombok.Data;
 @Schema(description = "คำค้นหาประวัติอีเมล // Email history search request")
 public class EmailSearchRequestDTO {
 
-    @Schema(description = "สถานะ // Status (PENDING, SENT, FAILED, BOUNCED)")
+    @Schema(description = "สถานะ // Status (PENDING, SENT, FAILED, BOUNCED)", example = "SENT")
     private String status;
 
-    @Schema(description = "รหัสเทมเพลต // Template code")
+    @Schema(description = "รหัสเทมเพลต // Template code", example = "INV-EMAIL-001")
     private String templateCode;
 
-    @Schema(description = "อีเมลผู้รับ // Recipient email")
+    @Schema(description = "อีเมลผู้รับ // Recipient email", example = "customer@example.com")
     private String toEmail;
 }

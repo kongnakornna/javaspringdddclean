@@ -3,6 +3,21 @@ server:
   ssl:
     enabled: false
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: true
+    displayRequestDuration: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  show-actuator: false
+  paths-to-match: /api/v1/**, /api/v1/batch-jobs/**, /api/v1/languages/**, /api/v1/translations/**, /api/v1/iot/**
+
 spring:
   main:
     allow-circular-references: true

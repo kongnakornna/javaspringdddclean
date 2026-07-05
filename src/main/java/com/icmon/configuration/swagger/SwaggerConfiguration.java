@@ -9,6 +9,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -24,11 +28,9 @@ import org.springframework.context.annotation.Configuration;
                 @Server(url = "/", description = "Default")
         },
         tags = {
-                @Tag(name = "Auth", description = "Authentication & Authorization (Login, Register, Token)"),
-                @Tag(name = "User", description = "User management"),
+                @Tag(name = "Authentication", description = "Authentication & Authorization (Login, Register, Token)"),
                 @Tag(name = "Role", description = "Role & Permission management"),
-                @Tag(name = "Job", description = "Job Card management"),
-                @Tag(name = "Job Service", description = "Job Service management"),
+                @Tag(name = "Job Card", description = "Job Card management"),
                 @Tag(name = "Job Part Sales", description = "Job Part Sales management"),
                 @Tag(name = "Customer Management", description = "Customer management APIs"),
                 @Tag(name = "Vehicle Management", description = "Vehicle management APIs"),
@@ -56,7 +58,9 @@ import org.springframework.context.annotation.Configuration;
                 @Tag(name = "OCR Processing", description = "ประมวลผล OCR // Optical Character Recognition processing"),
                 @Tag(name = "Email Service", description = "ส่งอีเมล // Email Management APIs"),
                 @Tag(name = "Email Templates", description = "จัดการเทมเพลตอีเมล // Email Template Management APIs"),
-                @Tag(name = "Email History", description = "ประวัติการส่งอีเมล // Email History APIs")
+                @Tag(name = "Email History", description = "ประวัติการส่งอีเมล // Email History APIs"),
+                @Tag(name = "Multi-Language (i18n)", description = "Internationalization and Language Management APIs"),
+                @Tag(name = "Translations", description = "Translation Management APIs"),   
         }
 )
 @SecuritySchemes({
@@ -68,4 +72,62 @@ import org.springframework.context.annotation.Configuration;
         )
 })
 public class SwaggerConfiguration {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("BearerAuth"));
+    }
+
+    @Bean
+    public GroupedOpenApi batchJobsGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("3. Batch Jobs")
+                .pathsToMatch("/api/v1/batch-jobs/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi batchJobHistoryGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("4. Batch Job History")
+                .pathsToMatch("/api/v1/batch-jobs/history/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi multiLanguageGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("5. Multi-Language (i18n)")
+                .pathsToMatch("/api/v1/languages/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi translationsGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("6. Translations")
+                .pathsToMatch("/api/v1/translations/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi iotGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("7. IoT & GPS")
+                .pathsToMatch("/api/v1/iot/devices/**")
+                .build();
+    }
+
+  
+ 
+
+    @Bean
+    public GroupedOpenApi autoReportsGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("11. Auto Reports")
+                .pathsToMatch("/api/v1/iot/reports/**")
+                .build();
+    }
+ 
 }

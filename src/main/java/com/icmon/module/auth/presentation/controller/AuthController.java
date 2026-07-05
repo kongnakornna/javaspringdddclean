@@ -8,6 +8,7 @@ import com.icmon.module.auth.presentation.dto.response.LoginResponseDTO;
 import com.icmon.module.auth.presentation.dto.response.UserResponseDTO;
 import com.icmon.exception.SystemGlobalException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -37,6 +38,7 @@ public class AuthController {
     @PostMapping("/login")
     @RateLimit(limit = 5, duration = 300, keyType = "IP")
     @Operation(summary = "User Login")
+    @SecurityRequirements({})
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request,
                                                   HttpServletRequest httpRequest) throws SystemGlobalException {
         // ✅ Log: เริ่มต้นการ Login
@@ -117,6 +119,7 @@ public class AuthController {
     @PostMapping("/register")
     @RateLimit(limit = 30, duration = 3600, keyType = "IP")
     @Operation(summary = "Register New User")
+    @SecurityRequirements({})
     public ResponseEntity<LoginResponseDTO> register(@Valid @RequestBody RegisterRequestDTO request,
                                                      HttpServletRequest httpRequest) throws SystemGlobalException {
         // ✅ Log: เริ่มต้น Register
@@ -157,6 +160,36 @@ public class AuthController {
                  response.getId(), response.getUsername(), elapsedTime);
 
         return ResponseEntity.ok(response);
+    }
+
+    /*
+        API: GET /api/v1/auth/verify
+        ฟังก์ชันนี้ตรวจสอบว่า Access Token (Bearer) ที่ส่งมายังใช้งานได้หรือไม่
+        This function verifies whether the provided Bearer Access Token is still valid.
+    */
+    @GetMapping("/verify")
+    @Operation(summary = "Verify Bearer Token")
+    public ResponseEntity<Map<String, Object>> verifyToken(@RequestHeader("Authorization") String authHeader) {
+        log.info("🔍 [VERIFY] Token verification requested");
+
+        long startTime = System.currentTimeMillis();
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("valid", false, "message", "Missing or invalid Authorization header"));
+        }
+
+        String token = authHeader.substring(7);
+        boolean isValid = authService.validateToken(token);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        if (isValid) {
+            log.info("✅ [VERIFY] Token is valid - elapsed: {}ms", elapsedTime);
+            return ResponseEntity.ok(Map.of("valid", true, "message", "Token is valid"));
+        } else {
+            log.warn("⚠️ [VERIFY] Token is invalid or expired - elapsed: {}ms", elapsedTime);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("valid", false, "message", "Token is invalid or expired"));
+        }
     }
 
     @ExceptionHandler(SystemGlobalException.class)

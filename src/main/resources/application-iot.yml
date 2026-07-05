@@ -1,0 +1,15 @@
+mqtt:
+  broker:
+    url: tcp://localhost:1883
+    username:
+    password:
+  client:
+    id: icmon-iot-client
+  default:
+    topic: gps/data
+
+influxdb:
+  url: http://localhost:8086
+  token:
+  org: icmon
+  bucket: iot_data
