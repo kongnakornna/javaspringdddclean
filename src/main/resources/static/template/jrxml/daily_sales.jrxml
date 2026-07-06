@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              name="DailySales" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <style name="Normal" fontName="THSarabunNew" fontSize="12" pdfFontName="THSarabunNew" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+    <style name="NormalBold" style="Normal" isBold="true"/>
+    <style name="Header" style="NormalBold" fontSize="16"/>
+    <style name="Currency" style="Normal" pattern="#,##0.00"/>
+
+    <parameter name="companyName" class="java.lang.String"/>
+    <parameter name="reportDate" class="java.lang.String"/>
+    <parameter name="totalRevenue" class="java.math.BigDecimal"/>
+    <parameter name="totalInvoices" class="java.lang.Integer"/>
+    <parameter name="totalCustomers" class="java.lang.Integer"/>
+    <parameter name="avgPerInvoice" class="java.math.BigDecimal"/>
+
+    <field name="customerName" class="java.lang.String"/>
+    <field name="invoiceNo" class="java.lang.String"/>
+    <field name="amount" class="java.math.BigDecimal"/>
+
+    <group name="InvoiceGroup">
+        <groupExpression><![CDATA[$F{invoiceNo}]]></groupExpression>
+        <groupHeader>
+            <band height="20">
+                <textField><reportElement x="0" y="0" width="200" height="20" style="NormalBold"/><textFieldExpression><![CDATA["Invoice: " + $F{invoiceNo}]]></textFieldExpression></textField>
+            </band>
+        </groupHeader>
+    </group>
+
+    <pageHeader>
+        <band height="60">
+            <textField><reportElement x="0" y="5" width="300" height="20" style="NormalBold" fontSize="14"/><textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression></textField>
+            <textField><reportElement x="350" y="5" width="205" height="25" style="Header"/><textFieldExpression><![CDATA["\u0e23\u0e32\u0e22\u0e07\u0e32\u0e19\u0e22\u0e2d\u0e14\u0e02\u0e32\u0e22\u0e23\u0e32\u0e22\u0e27\u0e31\u0e19 / DAILY SALES"]]></textFieldExpression></textField>
+            <textField><reportElement x="350" y="30" width="205" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48: " + $P{reportDate}]]></textFieldExpression></textField>
+        </band>
+    </pageHeader>
+
+    <title>
+        <band height="40">
+            <staticText><reportElement x="10" y="5" width="100" height="20" style="NormalBold"/><text><![CDATA[\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32]]></text></staticText>
+            <staticText><reportElement x="200" y="5" width="100" height="20" style="NormalBold"/><text><![CDATA[\u0e40\u0e25\u0e02\u0e17\u0e35\u0e48\u0e43\u0e1a\u0e41\u0e08\u0e49\u0e07\u0e2b\u0e19\u0e35\u0e49]]></text></staticText>
+            <staticText><reportElement x="450" y="5" width="100" height="20" style="NormalBold"/><text><![CDATA[\u0e08\u0e33\u0e19\u0e27\u0e19]]></text></staticText>
+        </band>
+    </title>
+
+    <detail>
+        <band height="20">
+            <textField><reportElement x="10" y="0" width="180" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression></textField>
+            <textField><reportElement x="200" y="0" width="200" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{invoiceNo}]]></textFieldExpression></textField>
+            <textField><reportElement x="450" y="0" width="100" height="20" style="Currency"/><textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="80">
+            <line><reportElement x="350" y="0" width="205" height="1"/></line>
+            <staticText><reportElement x="350" y="5" width="80" height="20" style="NormalBold"/><text><![CDATA[\u0e23\u0e27\u0e21\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49:]]></text></staticText>
+            <textField><reportElement x="450" y="5" width="100" height="20" style="Currency"/><textFieldExpression><![CDATA[$P{totalRevenue}]]></textFieldExpression></textField>
+            <staticText><reportElement x="10" y="30" width="150" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e08\u0e33\u0e19\u0e27\u0e19\u0e43\u0e1a\u0e41\u0e08\u0e49\u0e07\u0e2b\u0e19\u0e35\u0e49: " + $P{totalInvoices}]]></text></staticText>
+            <textField><reportElement x="10" y="50" width="250" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e08\u0e33\u0e19\u0e27\u0e19\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32: " + $P{totalCustomers}]]></textFieldExpression></textField>
+            <textField><reportElement x="10" y="70" width="250" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e40\u0e09\u0e25\u0e35\u0e48\u0e22\u0e15\u0e48\u0e2d\u0e43\u0e1a: " + $P{avgPerInvoice}]]></textFieldExpression></textField>
+        </band>
+    </summary>
+</jasperReport>

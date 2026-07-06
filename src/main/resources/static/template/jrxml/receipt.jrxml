@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="Receipt" pageWidth="283" pageHeight="400" columnWidth="243" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10">
+    <style name="Normal" fontName="THSarabunNew" fontSize="10" pdfFontName="THSarabunNew" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+    <style name="NormalBold" style="Normal" isBold="true"/>
+    <style name="Header" style="NormalBold" fontSize="12"/>
+
+    <parameter name="companyName" class="java.lang.String"/>
+    <parameter name="receiptNo" class="java.lang.String"/>
+    <parameter name="receiptDate" class="java.lang.String"/>
+    <parameter name="customerName" class="java.lang.String"/>
+    <parameter name="paymentMethod" class="java.lang.String"/>
+    <parameter name="amount" class="java.math.BigDecimal"/>
+    <parameter name="amountInWords" class="java.lang.String"/>
+    <parameter name="cashierName" class="java.lang.String"/>
+
+    <field name="description" class="java.lang.String"/>
+    <field name="total" class="java.math.BigDecimal"/>
+
+    <title>
+        <band height="50">
+            <textField><reportElement x="0" y="0" width="243" height="20" style="Header" textAlignment="Center"/><textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="20" width="243" height="20" style="NormalBold" textAlignment="Center"/><text><![CDATA[\u0e43\u0e1a\u0e40\u0e2a\u0e23\u0e47\u0e08\u0e23\u0e31\u0e1a\u0e40\u0e07\u0e34\u0e19 / RECEIPT]]></text></staticText>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="30">
+            <textField><reportElement x="0" y="0" width="150" height="15" style="Normal"/><textFieldExpression><![CDATA["\u0e40\u0e25\u0e02\u0e17\u0e35\u0e48: " + $P{receiptNo}]]></textFieldExpression></textField>
+            <textField><reportElement x="150" y="0" width="93" height="15" style="Normal" textAlignment="Right"/><textFieldExpression><![CDATA[$P{receiptDate}]]></textFieldExpression></textField>
+            <textField><reportElement x="0" y="15" width="243" height="15" style="Normal"/><textFieldExpression><![CDATA["\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32: " + $P{customerName}]]></textFieldExpression></textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="15">
+            <staticText><reportElement x="0" y="0" width="150" height="15" style="NormalBold"/><text><![CDATA[\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23]]></text></staticText>
+            <staticText><reportElement x="160" y="0" width="83" height="15" style="NormalBold" textAlignment="Right"/><text><![CDATA[\u0e08\u0e33\u0e19\u0e27\u0e19]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="15">
+            <textField><reportElement x="0" y="0" width="150" height="15" style="Normal"/><textFieldExpression><![CDATA[$F{description}]]></textFieldExpression></textField>
+            <textField><reportElement x="160" y="0" width="83" height="15" style="Normal" textAlignment="Right"/><textFieldExpression><![CDATA[$F{total}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="60">
+            <staticText><reportElement x="0" y="5" width="150" height="20" style="NormalBold"/><text><![CDATA[\u0e23\u0e27\u0e21\u0e40\u0e07\u0e34\u0e19:]]></text></staticText>
+            <textField><reportElement x="150" y="5" width="93" height="20" style="NormalBold" pattern="#,##0.00" textAlignment="Right"/><textFieldExpression><![CDATA[$P{amount}]]></textFieldExpression></textField>
+            <textField><reportElement x="0" y="25" width="243" height="15" style="Normal"/><textFieldExpression><![CDATA[$P{amountInWords}]]></textFieldExpression></textField>
+            <textField><reportElement x="0" y="45" width="243" height="15" style="Normal"/><textFieldExpression><![CDATA["\u0e0a\u0e33\u0e23\u0e30\u0e42\u0e14\u0e22: " + $P{paymentMethod} + " | \u0e1e\u0e19\u0e31\u0e01\u0e07\u0e32\u0e19: " + $P{cashierName}]]></textFieldExpression></textField>
+        </band>
+    </summary>
+</jasperReport>

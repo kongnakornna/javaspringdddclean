@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <style name="Normal" fontName="THSarabunNew" fontSize="12" pdfFontName="THSarabunNew" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+    <style name="NormalBold" style="Normal" isBold="true"/>
+    <style name="Header" style="NormalBold" fontSize="16"/>
+    <style name="Currency" style="Normal" pattern="#,##0.00"/>
+
+    <parameter name="companyName" class="java.lang.String"/>
+    <parameter name="companyAddress" class="java.lang.String"/>
+    <parameter name="companyPhone" class="java.lang.String"/>
+    <parameter name="companyTaxId" class="java.lang.String"/>
+    <parameter name="companyLogo" class="java.awt.Image"/>
+    <parameter name="invoiceNo" class="java.lang.String"/>
+    <parameter name="invoiceDate" class="java.lang.String"/>
+    <parameter name="customerName" class="java.lang.String"/>
+    <parameter name="customerAddress" class="java.lang.String"/>
+    <parameter name="subtotal" class="java.math.BigDecimal"/>
+    <parameter name="taxAmount" class="java.math.BigDecimal"/>
+    <parameter name="grandTotal" class="java.math.BigDecimal"/>
+    <parameter name="paymentStatus" class="java.lang.String"/>
+    <parameter name="qrCodeImage" class="java.awt.Image"/>
+
+    <field name="description" class="java.lang.String"/>
+    <field name="quantity" class="java.lang.Integer"/>
+    <field name="unitPrice" class="java.math.BigDecimal"/>
+    <field name="totalPrice" class="java.math.BigDecimal"/>
+
+    <pageHeader>
+        <band height="100">
+            <image>
+                <reportElement x="0" y="0" width="80" height="80"/>
+                <imageExpression><![CDATA[$P{companyLogo}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="85" y="10" width="300" height="25" style="NormalBold" fontSize="16"/>
+                <textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="85" y="35" width="300" height="15" style="Normal"/>
+                <textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="85" y="55" width="300" height="15" style="Normal"/>
+                <textFieldExpression><![CDATA["Tel: " + $P{companyPhone} + " | Tax ID: " + $P{companyTaxId}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="400" y="30" width="155" height="25" style="NormalBold" fontSize="16"/>
+                <textFieldExpression><![CDATA["\u0e43\u0e1a\u0e41\u0e08\u0e49\u0e07\u0e2b\u0e19\u0e35\u0e49 / INVOICE"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="400" y="55" width="155" height="20" style="Normal"/>
+                <textFieldExpression><![CDATA["\u0e40\u0e25\u0e02\u0e17\u0e35\u0e48: " + $P{invoiceNo}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="10" y="5" width="100" height="20" style="NormalBold"/>
+                <text><![CDATA[\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32 (Customer):]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="120" y="5" width="200" height="20" style="Normal"/>
+                <textFieldExpression><![CDATA[$P{customerName}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="25" width="100" height="20" style="NormalBold"/>
+                <text><![CDATA[\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48 (Date):]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="120" y="25" width="200" height="20" style="Normal"/>
+                <textFieldExpression><![CDATA[$P{invoiceDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement x="20" y="0" width="200" height="20" style="NormalBold"/><text><![CDATA[\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23 (Description)]]></text></staticText>
+            <staticText><reportElement x="250" y="0" width="50" height="20" style="NormalBold"/><text><![CDATA[\u0e08\u0e33\u0e19\u0e27\u0e19]]></text></staticText>
+            <staticText><reportElement x="320" y="0" width="80" height="20" style="NormalBold"/><text><![CDATA[\u0e23\u0e32\u0e04\u0e32/\u0e2b\u0e19\u0e48\u0e27\u0e22]]></text></staticText>
+            <staticText><reportElement x="450" y="0" width="100" height="20" style="NormalBold"/><text><![CDATA[\u0e23\u0e27\u0e21]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField><reportElement x="20" y="0" width="200" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{description}]]></textFieldExpression></textField>
+            <textField><reportElement x="250" y="0" width="50" height="20" style="Normal" textAlignment="Center"/><textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression></textField>
+            <textField><reportElement x="320" y="0" width="80" height="20" style="Currency"/><textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression></textField>
+            <textField><reportElement x="450" y="0" width="100" height="20" style="Currency"/><textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="200">
+            <staticText><reportElement x="350" y="10" width="70" height="20" style="NormalBold"/><text><![CDATA[\u0e22\u0e2d\u0e14\u0e23\u0e27\u0e21:]]></text></staticText>
+            <textField><reportElement x="450" y="10" width="100" height="20" style="Currency"/><textFieldExpression><![CDATA[$P{subtotal}]]></textFieldExpression></textField>
+            <staticText><reportElement x="350" y="30" width="70" height="20" style="NormalBold"/><text><![CDATA[\u0e20\u0e32\u0e29\u0e35:]]></text></staticText>
+            <textField><reportElement x="450" y="30" width="100" height="20" style="Currency"/><textFieldExpression><![CDATA[$P{taxAmount}]]></textFieldExpression></textField>
+            <staticText><reportElement x="350" y="55" width="100" height="25" style="NormalBold" fontSize="14"/><text><![CDATA[\u0e22\u0e2d\u0e14\u0e2a\u0e38\u0e17\u0e18\u0e34:]]></text></staticText>
+            <textField><reportElement x="450" y="55" width="100" height="25" style="NormalBold" pattern="#,##0.00" fontSize="14"/><textFieldExpression><![CDATA[$P{grandTotal}]]></textFieldExpression></textField>
+
+            <image>
+                <reportElement x="20" y="70" width="120" height="120"/>
+                <imageExpression><![CDATA[$P{qrCodeImage}]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="150" y="80" width="150" height="20" style="NormalBold"/>
+                <text><![CDATA[\u0e0a\u0e33\u0e23\u0e30\u0e40\u0e07\u0e34\u0e19\u0e1c\u0e48\u0e32\u0e19 QR Code]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="100" width="250" height="20" style="Normal"/>
+                <textFieldExpression><![CDATA["\u0e2a\u0e16\u0e32\u0e19\u0e30: " + $P{paymentStatus}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              name="CustomerList" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <style name="Normal" fontName="THSarabunNew" fontSize="12" pdfFontName="THSarabunNew" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+    <style name="NormalBold" style="Normal" isBold="true"/>
+    <style name="Header" style="NormalBold" fontSize="16"/>
+    <style name="TableHeader" style="NormalBold" backcolor="#E0E0E0"/>
+
+    <parameter name="companyName" class="java.lang.String"/>
+    <parameter name="reportDate" class="java.lang.String"/>
+    <parameter name="totalCustomers" class="java.lang.Integer"/>
+
+    <field name="customerCode" class="java.lang.String"/>
+    <field name="customerName" class="java.lang.String"/>
+    <field name="customerPhone" class="java.lang.String"/>
+    <field name="customerEmail" class="java.lang.String"/>
+    <field name="customerType" class="java.lang.String"/>
+    <field name="registerDate" class="java.lang.String"/>
+
+    <pageHeader>
+        <band height="60">
+            <textField><reportElement x="0" y="5" width="300" height="20" style="NormalBold" fontSize="14"/><textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression></textField>
+            <textField><reportElement x="350" y="5" width="205" height="25" style="Header"/><textFieldExpression><![CDATA["\u0e23\u0e32\u0e22\u0e07\u0e32\u0e19\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32 / CUSTOMER LIST"]]></textFieldExpression></textField>
+            <textField><reportElement x="350" y="30" width="205" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48: " + $P{reportDate}]]></textFieldExpression></textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement x="5" y="3" width="80" height="20" style="TableHeader"/><text><![CDATA[\u0e23\u0e2b\u0e31\u0e2a\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32]]></text></staticText>
+            <staticText><reportElement x="90" y="3" width="150" height="20" style="TableHeader"/><text><![CDATA[\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32]]></text></staticText>
+            <staticText><reportElement x="245" y="3" width="100" height="20" style="TableHeader"/><text><![CDATA[\u0e42\u0e17\u0e23\u0e28\u0e31\u0e1e\u0e17\u0e4c]]></text></staticText>
+            <staticText><reportElement x="350" y="3" width="120" height="20" style="TableHeader"/><text><![CDATA[\u0e2d\u0e35\u0e40\u0e21\u0e25]]></text></staticText>
+            <staticText><reportElement x="475" y="3" width="75" height="20" style="TableHeader"/><text><![CDATA[\u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField><reportElement x="5" y="0" width="80" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerCode}]]></textFieldExpression></textField>
+            <textField><reportElement x="90" y="0" width="150" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression></textField>
+            <textField><reportElement x="245" y="0" width="100" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerPhone}]]></textFieldExpression></textField>
+            <textField><reportElement x="350" y="0" width="120" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerEmail}]]></textFieldExpression></textField>
+            <textField><reportElement x="475" y="0" width="75" height="20" style="Normal"/><textFieldExpression><![CDATA[$F{customerType}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="50">
+            <textField><reportElement x="10" y="10" width="300" height="20" style="Normal"/><textFieldExpression><![CDATA["\u0e08\u0e33\u0e19\u0e27\u0e19\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14: " + $P{totalCustomers}]]></textFieldExpression></textField>
+        </band>
+    </summary>
+</jasperReport>

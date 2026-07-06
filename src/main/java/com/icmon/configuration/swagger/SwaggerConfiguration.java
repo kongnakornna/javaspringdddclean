@@ -60,7 +60,11 @@ import org.springframework.context.annotation.Configuration;
                 @Tag(name = "Email Templates", description = "จัดการเทมเพลตอีเมล // Email Template Management APIs"),
                 @Tag(name = "Email History", description = "ประวัติการส่งอีเมล // Email History APIs"),
                 @Tag(name = "Multi-Language (i18n)", description = "Internationalization and Language Management APIs"),
-                @Tag(name = "Translations", description = "Translation Management APIs"),   
+                @Tag(name = "Translations", description = "Translation Management APIs"),
+                @Tag(name = "Web Order - Catalogue", description = "Product Catalogue APIs"),
+                @Tag(name = "Web Order - Cart", description = "Shopping Cart APIs"),
+                @Tag(name = "Web Order - Orders", description = "Order Management APIs"),
+                @Tag(name = "Web Order - Sales Price", description = "Sales Price Management APIs (Admin)"),
         }
 )
 @SecuritySchemes({
@@ -127,6 +131,22 @@ public class SwaggerConfiguration {
         return GroupedOpenApi.builder()
                 .group("11. Auto Reports")
                 .pathsToMatch("/api/v1/iot/reports/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi webOrderGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("12. Web Order System (WOS)")
+                .pathsToMatch("/api/v1/wos/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi reportsGroupedOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("13. JasperReports PDF Generation")
+                .pathsToMatch("/api/v1/reports/**")
                 .build();
     }
  

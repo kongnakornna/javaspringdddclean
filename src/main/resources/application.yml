@@ -16,7 +16,7 @@ springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
   show-actuator: false
-  paths-to-match: /api/v1/**, /api/v1/batch-jobs/**, /api/v1/languages/**, /api/v1/translations/**, /api/v1/iot/**
+  paths-to-match: /api/v1/**, /api/v1/batch-jobs/**, /api/v1/languages/**, /api/v1/translations/**, /api/v1/iot/**, /api/v1/wos/**, /api/v1/reports/**
 
 spring:
   main:
