@@ -2,7 +2,7 @@
 
 This project was developed with a focus on scalability, maintainability, and productivity in enterprise application development, by applying **Domain-Driven Design (DDD)** and **Clean Architecture** principles.
 
-#### http://localhost:1080/api/swagger-ui/index.html#
+#### http://localhost:1080/swagger-ui/index.html#/
 
 ![alt text](docs.png)
 
