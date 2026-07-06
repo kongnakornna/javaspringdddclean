@@ -97,11 +97,11 @@
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
 
         <!-- MapStruct Processor Configuration -->
-        <mapstruct-processor.version>1.6.2</mapstruct-processor.version>
-        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <mapstruct-processor.version>1.6.3</mapstruct-processor.version>
 
         <!-- Apache Commons (Security Fix) -->
         <commons-compress.version>1.26.0</commons-compress.version>
+        <jasperreports.version>6.20.5</jasperreports.version>
     </properties>
 
     <!-- System profiles (Dev is standard) -->
@@ -395,6 +395,45 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- WebSocket for IoT -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- Spring Integration MQTT for IoT -->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+        </dependency>
+
+        <!-- Eclipse Paho MQTT Client -->
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <!-- InfluxDB Client for IoT time-series data -->
+        <dependency>
+            <groupId>com.influxdb</groupId>
+            <artifactId>influxdb-client-java</artifactId>
+            <version>7.2.0</version>
+        </dependency>
+
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>${jasperreports.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>${jasperreports.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -423,12 +462,11 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct-processor.version}</version>
                         </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>${lombok-mapstruct-binding.version}</version>
-                        </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
+                        <arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 

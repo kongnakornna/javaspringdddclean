@@ -1,41 +1,45 @@
 package com.icmon.module.inventory.presentation.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.icmon.module.inventory.domain.MPartMaster;
+import com.icmon.module.inventory.infrastructure.entity.InventoryEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Schema(description = "ข้อมูลธุรกรรมสินค้าคงคลัง | Inventory Transaction Response")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class InventoryResponseDTO {
-    @Schema(description = "รหัส | ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private UUID id;
-    @Schema(description = "รหัสอะไหล่ | Part ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private UUID partId;
-    @Schema(description = "ประเภทธุรกรรม | Transaction Type", example = "RECEIVE")
+    private String partCode;
+    private String partName;
     private String transactionType;
-    @Schema(description = "ประเภทเอกสารอ้างอิง | Reference Type", example = "PURCHASE_ORDER")
     private String referenceType;
-    @Schema(description = "รหัสเอกสารอ้างอิง | Reference ID", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private UUID referenceId;
-    @Schema(description = "จำนวน | Quantity", example = "10")
-    private int quantity;
-    @Schema(description = "จำนวนก่อนหน้า | Previous Quantity", example = "40")
-    private int previousQuantity;
-    @Schema(description = "จำนวนใหม่ | New Quantity", example = "50")
-    private int newQuantity;
-    @Schema(description = "ต้นทุนต่อหน่วย | Unit Cost", example = "500.00")
+    private Integer quantity;
+    private Integer previousQuantity;
+    private Integer newQuantity;
     private BigDecimal unitCost;
-    @Schema(description = "ต้นทุนรวม | Total Cost", example = "5000.00")
     private BigDecimal totalCost;
-    @Schema(description = "วันที่ทำรายการ | Transaction Date", example = "2024-06-15T10:30:00")
     private LocalDateTime transactionDate;
-    @Schema(description = "หมายเหตุ | Note", example = "รับสินค้าตามใบสั่งซื้อ PO-2024-001")
     private String note;
-    @Schema(description = "รหัสผู้ดำเนินการ | Performed By", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
-    private UUID performedBy;
-    @Schema(description = "วันที่สร้าง | Created At", example = "2024-06-15T10:30:00")
-    private LocalDateTime createdAt;
+
+    public static InventoryResponseDTO fromEntity(InventoryEntity entity, MPartMaster part) {
+        return InventoryResponseDTO.builder()
+                .id(entity.getId()).partId(entity.getPartId())
+                .partCode(part != null ? part.getPartCode() : null)
+                .partName(part != null ? part.getPartName() : null)
+                .transactionType(entity.getTransactionType())
+                .referenceType(entity.getReferenceType()).referenceId(entity.getReferenceId())
+                .quantity(entity.getQuantity()).previousQuantity(entity.getPreviousQuantity())
+                .newQuantity(entity.getNewQuantity()).unitCost(entity.getUnitCost())
+                .totalCost(entity.getTotalCost()).transactionDate(entity.getTransactionDate())
+                .note(entity.getNote()).build();
+    }
 }

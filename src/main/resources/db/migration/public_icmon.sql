@@ -12,7 +12,7 @@
  Target Server Version : 180003 (180003)
  File Encoding         : 65001
 
- Date: 05/07/2026 23:41:53
+ Date: 06/07/2026 10:03:27
 */
 
 
@@ -155,18 +155,19 @@ CREATE TABLE "public"."m_catalogue_category" (
   "created_at" timestamp(6) NOT NULL DEFAULT now(),
   "updated_at" timestamp(6),
   "user_id" uuid,
-  "whitelabel_id" uuid
+  "whitelabel_id" uuid,
+  "deleted_at" timestamp(6)
 )
 ;
 
 -- ----------------------------
 -- Records of m_catalogue_category
 -- ----------------------------
-INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000001', 'CAT_ENGINE', 'อะไหล่เครื่องยนต์', 'Engine Parts', NULL, 0, 1, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000002', 'CAT_BRAKE', 'ระบบเบรก', 'Brake System', NULL, 0, 2, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000003', 'CAT_ELECTRIC', 'ระบบไฟฟ้า', 'Electrical', NULL, 0, 3, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000004', 'CAT_SUSPENSION', 'ระบบช่วงล่าง', 'Suspension', NULL, 0, 4, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000005', 'CAT_BODY', 'ตัวถัง', 'Body Parts', NULL, 0, 5, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
+INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000001', 'CAT_ENGINE', 'อะไหล่เครื่องยนต์', 'Engine Parts', NULL, 0, 1, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000002', 'CAT_BRAKE', 'ระบบเบรก', 'Brake System', NULL, 0, 2, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000003', 'CAT_ELECTRIC', 'ระบบไฟฟ้า', 'Electrical', NULL, 0, 3, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000004', 'CAT_SUSPENSION', 'ระบบช่วงล่าง', 'Suspension', NULL, 0, 4, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_catalogue_category" VALUES ('00000000-0000-0000-0000-000000000005', 'CAT_BODY', 'ตัวถัง', 'Body Parts', NULL, 0, 5, NULL, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
 
 -- ----------------------------
 -- Table structure for m_catalogue_item
@@ -636,15 +637,16 @@ CREATE TABLE "public"."m_promotion" (
   "created_at" timestamp(6) NOT NULL DEFAULT now(),
   "updated_at" timestamp(6),
   "user_id" uuid,
-  "whitelabel_id" uuid
+  "whitelabel_id" uuid,
+  "deleted_at" timestamp(6)
 )
 ;
 
 -- ----------------------------
 -- Records of m_promotion
 -- ----------------------------
-INSERT INTO "public"."m_promotion" VALUES ('00000000-0000-0000-0000-000000000020', 'WELCOME10', 'ส่วนลด 10% สำหรับสมาชิกใหม่', 'PERCENTAGE', 10.00, 500.00, NULL, NULL, '2026-07-05 22:40:53.140776', '9999-12-31 23:59:59', 0, 0, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_promotion" VALUES ('00000000-0000-0000-0000-000000000021', 'NEWYEAR2026', 'ส่วนลด 500 บาท ต้อนรับปีใหม่ 2026', 'FIXED', 500.00, 2000.00, NULL, NULL, '2026-07-05 22:40:53.140776', '2026-01-31 23:59:59', 1000, 0, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
+INSERT INTO "public"."m_promotion" VALUES ('00000000-0000-0000-0000-000000000020', 'WELCOME10', 'ส่วนลด 10% สำหรับสมาชิกใหม่', 'PERCENTAGE', 10.00, 500.00, NULL, NULL, '2026-07-05 22:40:53.140776', '9999-12-31 23:59:59', 0, 0, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_promotion" VALUES ('00000000-0000-0000-0000-000000000021', 'NEWYEAR2026', 'ส่วนลด 500 บาท ต้อนรับปีใหม่ 2026', 'FIXED', 500.00, 2000.00, NULL, NULL, '2026-07-05 22:40:53.140776', '2026-01-31 23:59:59', 1000, 0, 't', NULL, '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
 
 -- ----------------------------
 -- Table structure for m_province
@@ -738,23 +740,24 @@ CREATE TABLE "public"."m_sales_price" (
   "created_at" timestamp(6) NOT NULL DEFAULT now(),
   "updated_at" timestamp(6),
   "user_id" uuid,
-  "whitelabel_id" uuid
+  "whitelabel_id" uuid,
+  "deleted_at" timestamp(6)
 )
 ;
 
 -- ----------------------------
 -- Records of m_sales_price
 -- ----------------------------
-INSERT INTO "public"."m_sales_price" VALUES ('ed5bbbf9-75e5-4a16-8ed6-4a3b3bf76a21', '00000000-0000-0000-0000-000000000010', 'DEFAULT', 250.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('56549209-6c0f-4dde-a7f6-c01fe594292f', '00000000-0000-0000-0000-000000000011', 'DEFAULT', 350.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('6650184e-1152-4392-acfd-5c65fbe8130e', '00000000-0000-0000-0000-000000000012', 'DEFAULT', 800.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('900e1755-73c4-462f-9ba8-bd5cf0015193', '00000000-0000-0000-0000-000000000013', 'DEFAULT', 1500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('5308649b-aa8a-49ab-976b-d93330560539', '00000000-0000-0000-0000-000000000014', 'DEFAULT', 150.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('0e2425a3-6b04-4b2f-90c0-62b2a22d5647', '00000000-0000-0000-0000-000000000015', 'DEFAULT', 3500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('edd906d3-cd84-4141-85c5-f55fff98ca57', '00000000-0000-0000-0000-000000000016', 'DEFAULT', 2500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('f35ddd06-a5c7-4a9e-809a-724f569be152', '00000000-0000-0000-0000-000000000017', 'DEFAULT', 1800.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('7459a731-9cc8-49a6-bb93-255f386ce015', '00000000-0000-0000-0000-000000000018', 'DEFAULT', 5000.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
-INSERT INTO "public"."m_sales_price" VALUES ('f3460cc5-5e6b-4e8b-a718-9b6c5f2c63d0', '00000000-0000-0000-0000-000000000019', 'DEFAULT', 3000.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001');
+INSERT INTO "public"."m_sales_price" VALUES ('ed5bbbf9-75e5-4a16-8ed6-4a3b3bf76a21', '00000000-0000-0000-0000-000000000010', 'DEFAULT', 250.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('56549209-6c0f-4dde-a7f6-c01fe594292f', '00000000-0000-0000-0000-000000000011', 'DEFAULT', 350.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('6650184e-1152-4392-acfd-5c65fbe8130e', '00000000-0000-0000-0000-000000000012', 'DEFAULT', 800.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('900e1755-73c4-462f-9ba8-bd5cf0015193', '00000000-0000-0000-0000-000000000013', 'DEFAULT', 1500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('5308649b-aa8a-49ab-976b-d93330560539', '00000000-0000-0000-0000-000000000014', 'DEFAULT', 150.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('0e2425a3-6b04-4b2f-90c0-62b2a22d5647', '00000000-0000-0000-0000-000000000015', 'DEFAULT', 3500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('edd906d3-cd84-4141-85c5-f55fff98ca57', '00000000-0000-0000-0000-000000000016', 'DEFAULT', 2500.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('f35ddd06-a5c7-4a9e-809a-724f569be152', '00000000-0000-0000-0000-000000000017', 'DEFAULT', 1800.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('7459a731-9cc8-49a6-bb93-255f386ce015', '00000000-0000-0000-0000-000000000018', 'DEFAULT', 5000.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
+INSERT INTO "public"."m_sales_price" VALUES ('f3460cc5-5e6b-4e8b-a718-9b6c5f2c63d0', '00000000-0000-0000-0000-000000000019', 'DEFAULT', 3000.00, 'THB', '2026-07-05 22:40:53.140776', NULL, 1, 't', '2026-07-05 22:40:53.140776', NULL, '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', NULL);
 
 -- ----------------------------
 -- Table structure for m_service
@@ -1114,6 +1117,14 @@ INSERT INTO "public"."m_user_token" VALUES ('46231e77-1aba-4b18-b746-ff96ee96733
 INSERT INTO "public"."m_user_token" VALUES ('5e779911-7b79-431a-9d03-db78101d8859', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzIzODk5MSwiZXhwIjoxNzgzMzI1MzkxfQ.Yu-hipPYJdHFJLTJNBxMciC9jGgYnAe2XVsX6BWnXMU', 'REFRESH', '2026-07-06 15:09:51.236593', 'f', NULL, '2026-07-05 15:09:51.236593', NULL, NULL);
 INSERT INTO "public"."m_user_token" VALUES ('5d78031e-4824-48cb-8c8f-ae8413f067d1', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ1c2VybmFtZSI6ImtvbmduYWtvcm5uYSIsIndoaXRlbGFiZWxJZCI6IjY3OTc3N2JjLWZhNzUtNDQwYS1iMzdjLTVhMjg2ZThmMWE2OCIsInR5cGUiOiJBQ0NFU1MiLCJpYXQiOjE3ODMyMzkwMzUsImV4cCI6MTc4MzI0MjYzNX0.s8TGVmUm6KIo3WMS17iz-f7WwF5qV7leiPEzP0S9Yvw', 'ACCESS', '2026-07-05 16:10:35.466011', 'f', NULL, '2026-07-05 15:10:35.466011', NULL, NULL);
 INSERT INTO "public"."m_user_token" VALUES ('f194afbd-12eb-403a-b500-37558f129157', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzIzOTAzNSwiZXhwIjoxNzgzMzI1NDM1fQ.MgktETGB3AZ7nv9xqgF8LqBxEhsgywf3kFAWdXmcUdI', 'REFRESH', '2026-07-06 15:10:35.467002', 'f', NULL, '2026-07-05 15:10:35.467002', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('f60e67f7-d0b7-4046-aa27-567038be1feb', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ1c2VybmFtZSI6ImtvbmduYWtvcm5uYSIsIndoaXRlbGFiZWxJZCI6IjY3OTc3N2JjLWZhNzUtNDQwYS1iMzdjLTVhMjg2ZThmMWE2OCIsInR5cGUiOiJBQ0NFU1MiLCJpYXQiOjE3ODMyNjk4MDgsImV4cCI6MTc4MzI3MzQwOH0.QJr4a5WHlIb1J04MfF4Wv8RG3irbwiLvFF9aeFBPSRE', 'ACCESS', '2026-07-06 00:43:28.848257', 'f', NULL, '2026-07-05 23:43:28.848257', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('cb4ead2c-774b-425b-8cde-229d718caed6', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzI2OTgwOCwiZXhwIjoxNzgzMzU2MjA4fQ.B9pj4ZvBMNhbFn5izlrSdYFxIFnuYkQ0jihkJzUFtRQ', 'REFRESH', '2026-07-06 23:43:28.86886', 'f', NULL, '2026-07-05 23:43:28.86886', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('e5d751b4-3902-46e6-87d0-c2fd285a645f', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ1c2VybmFtZSI6ImtvbmduYWtvcm5uYSIsIndoaXRlbGFiZWxJZCI6IjY3OTc3N2JjLWZhNzUtNDQwYS1iMzdjLTVhMjg2ZThmMWE2OCIsInR5cGUiOiJBQ0NFU1MiLCJpYXQiOjE3ODMyNjk4MDksImV4cCI6MTc4MzI3MzQwOX0.Ld0WgBL92_BkimimoMROaNV8vyAn7geuc58bKCrufig', 'ACCESS', '2026-07-06 00:43:29.971469', 'f', NULL, '2026-07-05 23:43:29.971469', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('9d06b860-4f72-498e-8b4d-240ec5b789cc', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzI2OTgwOSwiZXhwIjoxNzgzMzU2MjA5fQ.04_17PH6wxzIXSzDdUbUjehDPmGzzUVJbUOFCwxzqfs', 'REFRESH', '2026-07-06 23:43:29.972466', 'f', NULL, '2026-07-05 23:43:29.972466', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('03374da5-aafd-4df0-bb15-b70f46973ed6', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ1c2VybmFtZSI6ImtvbmduYWtvcm5uYSIsIndoaXRlbGFiZWxJZCI6IjY3OTc3N2JjLWZhNzUtNDQwYS1iMzdjLTVhMjg2ZThmMWE2OCIsInR5cGUiOiJBQ0NFU1MiLCJpYXQiOjE3ODMyNjk4MTAsImV4cCI6MTc4MzI3MzQxMH0.fbU8N5xmTJcPJHtaPJzIUjarCAEu2gwzf7yiPXXcFq0', 'ACCESS', '2026-07-06 00:43:30.745915', 'f', NULL, '2026-07-05 23:43:30.745915', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('e83b5a5d-9118-455f-a9c6-615aced0acac', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzI2OTgxMCwiZXhwIjoxNzgzMzU2MjEwfQ.hAOMnKMl0JClmNRvWk1imzZNcNF_E2ml9lwHJcNJBco', 'REFRESH', '2026-07-06 23:43:30.747063', 'f', NULL, '2026-07-05 23:43:30.747063', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('170e35d8-1297-456e-a0a4-60fb803bd5a9', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ1c2VybmFtZSI6ImtvbmduYWtvcm5uYSIsIndoaXRlbGFiZWxJZCI6IjY3OTc3N2JjLWZhNzUtNDQwYS1iMzdjLTVhMjg2ZThmMWE2OCIsInR5cGUiOiJBQ0NFU1MiLCJpYXQiOjE3ODMyNjk4MTEsImV4cCI6MTc4MzI3MzQxMX0.3G_grvlRXkF5qvTi_n6rp_6XrkQcLnxk9i_o63-JZic', 'ACCESS', '2026-07-06 00:43:31.305287', 'f', NULL, '2026-07-05 23:43:31.305287', NULL, NULL);
+INSERT INTO "public"."m_user_token" VALUES ('38130164-08c3-40dd-be7d-f4f21a1e3e38', '679777bc-fa75-440a-b37c-5a286e8f1a68', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Nzk3NzdiYy1mYTc1LTQ0MGEtYjM3Yy01YTI4NmU4ZjFhNjgiLCJ0eXBlIjoiUkVGUkVTSCIsImlhdCI6MTc4MzI2OTgxMSwiZXhwIjoxNzgzMzU2MjExfQ.090eLzFYeGTJSqw9ACPDUWnFNT6Rkbfhk_msE2Rh9xU', 'REFRESH', '2026-07-06 23:43:31.305287', 'f', NULL, '2026-07-05 23:43:31.305287', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_auto_report
@@ -1419,7 +1430,7 @@ CREATE TABLE "public"."t_inventory" (
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
   "part_id" uuid NOT NULL,
   "transaction_type" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
-  "reference_type" varchar(30) COLLATE "pg_catalog"."default",
+  "reference_type" varchar(50) COLLATE "pg_catalog"."default",
   "reference_id" uuid,
   "quantity" int4 NOT NULL,
   "previous_quantity" int4 NOT NULL,
@@ -1493,6 +1504,60 @@ CREATE TABLE "public"."t_inventory_adjustment_header" (
 
 -- ----------------------------
 -- Records of t_inventory_adjustment_header
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_inventory_alert_history
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."t_inventory_alert_history";
+CREATE TABLE "public"."t_inventory_alert_history" (
+  "id" uuid NOT NULL,
+  "created_at" timestamp(6),
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6),
+  "updated_at" timestamp(6),
+  "user_id" uuid NOT NULL,
+  "whitelabel_id" uuid NOT NULL,
+  "alert_date" date NOT NULL,
+  "alert_sent" bool,
+  "current_stock" int4,
+  "part_code" varchar(50) COLLATE "pg_catalog"."default",
+  "part_id" uuid NOT NULL,
+  "part_name" varchar(200) COLLATE "pg_catalog"."default",
+  "reorder_level" int4,
+  "reorder_quantity" int4,
+  "resolved" bool
+)
+;
+
+-- ----------------------------
+-- Records of t_inventory_alert_history
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_inventory_layer
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."t_inventory_layer";
+CREATE TABLE "public"."t_inventory_layer" (
+  "id" uuid NOT NULL,
+  "created_at" timestamp(6),
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6),
+  "updated_at" timestamp(6),
+  "user_id" uuid NOT NULL,
+  "whitelabel_id" uuid NOT NULL,
+  "is_active" bool,
+  "part_id" uuid NOT NULL,
+  "quantity" int4 NOT NULL,
+  "received_date" timestamp(6) NOT NULL,
+  "reference_id" uuid,
+  "reference_type" varchar(50) COLLATE "pg_catalog"."default",
+  "unit_cost" numeric(15,2)
+)
+;
+
+-- ----------------------------
+-- Records of t_inventory_layer
 -- ----------------------------
 
 -- ----------------------------
@@ -2205,7 +2270,9 @@ CREATE TABLE "public"."t_shopping_cart" (
   "notes" text COLLATE "pg_catalog"."default",
   "created_at" timestamp(6) NOT NULL DEFAULT now(),
   "updated_at" timestamp(6),
-  "whitelabel_id" uuid
+  "whitelabel_id" uuid,
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6)
 )
 ;
 
@@ -2228,7 +2295,9 @@ CREATE TABLE "public"."t_shopping_cart_item" (
 ) STORED,
   "attributes" jsonb,
   "created_at" timestamp(6) NOT NULL DEFAULT now(),
-  "updated_at" timestamp(6)
+  "updated_at" timestamp(6),
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6)
 )
 ;
 
@@ -2356,7 +2425,10 @@ CREATE TABLE "public"."t_web_order_item" (
 (((quantity)::numeric * unit_price) - discount)
 ) STORED,
   "attributes" jsonb,
-  "created_at" timestamp(6) NOT NULL DEFAULT now()
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6),
+  "updated_at" timestamp(6)
 )
 ;
 
@@ -2376,7 +2448,12 @@ CREATE TABLE "public"."t_web_order_status_history" (
   "changed_by" uuid,
   "changed_at" timestamp(6) NOT NULL DEFAULT now(),
   "reason" text COLLATE "pg_catalog"."default",
-  "whitelabel_id" uuid
+  "whitelabel_id" uuid,
+  "created_at" timestamp(6),
+  "deleted" bool NOT NULL,
+  "deleted_at" timestamp(6),
+  "updated_at" timestamp(6),
+  "user_id" uuid NOT NULL
 )
 ;
 
@@ -3505,6 +3582,16 @@ ALTER TABLE "public"."t_inventory_adjustment_header" ADD CONSTRAINT "t_inventory
 -- Primary Key structure for table t_inventory_adjustment_header
 -- ----------------------------
 ALTER TABLE "public"."t_inventory_adjustment_header" ADD CONSTRAINT "t_inventory_adjustment_header_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table t_inventory_alert_history
+-- ----------------------------
+ALTER TABLE "public"."t_inventory_alert_history" ADD CONSTRAINT "t_inventory_alert_history_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table t_inventory_layer
+-- ----------------------------
+ALTER TABLE "public"."t_inventory_layer" ADD CONSTRAINT "t_inventory_layer_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Triggers structure for table t_invoice_adjustment

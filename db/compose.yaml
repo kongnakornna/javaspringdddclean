@@ -1,0 +1,231 @@
+# Spring Boot DDD Template - Docker Compose
+# This file sets up the complete infrastructure for the application
+version: "3.9"
+
+services:
+  # PostgreSQL Database - Main transactional database
+  postgres:
+    image: postgres:15-alpine
+    container_name: icmon-postgres
+    restart: unless-stopped
+    ports:
+      - "5439:5432"
+    environment:
+      POSTGRES_DB: icmonapp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - icmon-network
+
+  # PgAdmin - PostgreSQL Web Interface
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: icmon-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@icmon.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5059:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - icmon-network
+
+  # MongoDB - Logging and NoSQL data
+  mongodb:
+    image: mongo:7.0
+    container_name: icmon-mongo
+    restart: unless-stopped
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: app_logs
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+      - ./docker/mongo/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - icmon-network
+
+  # Mongo Express - MongoDB Web Interface
+  mongo-express:
+    image: mongo-express:latest
+    container_name: icmon-mongo-express
+    restart: unless-stopped
+    ports:
+      - "1081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:secret@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - icmon-network
+
+  # Neo4j - Graph Database
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: icmon-neo4j
+    restart: unless-stopped
+    ports:
+      - "7074:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+      NEO4J_dbms_security_procedures_allowlist: apoc.*
+      NEO4J_dbms_default__listen__address: 0.0.0.0
+      NEO4J_dbms_connector_bolt_listen__address: 0.0.0.0:7687
+      NEO4J_dbms_connector_http_listen__address: 0.0.0.0:7474
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password", "RETURN 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - icmon-network
+
+  # Redis - Cache & Session management
+  redis:
+    image: redis:7-alpine
+    container_name: icmon-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - icmon-network
+
+  # Redis Commander - Redis Web Interface (optional)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: icmon-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - icmon-network
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: icmon-app
+    restart: unless-stopped
+    ports:
+      - "1080:1080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/icmonapp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: app_logs
+      SPRING_DATA_MONGODB_USERNAME: mongoadmin
+      SPRING_DATA_MONGODB_PASSWORD: secret
+      SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
+      SPRING_NEO4J_URI: bolt://neo4j:7687
+      SPRING_NEO4J_AUTHENTICATION_USERNAME: neo4j
+      SPRING_NEO4J_AUTHENTICATION_PASSWORD: password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6380
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:-default-public-key-for-dev-only}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY:-default-private-key-for-dev-only}
+      TZ: Asia/Bangkok
+    volumes:
+      - app_logs:/app/logs
+      - app_uploads:/app/uploads
+      - app_reports:/app/reports
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - icmon-network
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local
+  neo4j_data:
+    driver: local
+  neo4j_logs:
+    driver: local
+  neo4j_import:
+    driver: local
+  neo4j_plugins:
+    driver: local
+  redis_data:
+    driver: local
+  app_logs:
+    driver: local
+  app_uploads:
+    driver: local
+  app_reports:
+    driver: local
+
+# Network for container communication
+networks:
+  icmon-network:
+    driver: bridge
+    name: icmon-network

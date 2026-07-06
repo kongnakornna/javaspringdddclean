@@ -15,8 +15,8 @@ springdoc:
     displayRequestDuration: true
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
-  show-actuator: false
-  paths-to-match: /api/v1/**, /api/v1/batch-jobs/**, /api/v1/languages/**, /api/v1/translations/**, /api/v1/iot/**, /api/v1/wos/**, /api/v1/reports/**
+  show-actuator: true
+  paths-to-match: /api/v1/**, /api/v1/batch-jobs/**, /api/v1/languages/**, /api/v1/translations/**, /api/v1/iot/**, /api/v1/wos/**, /api/v1/reports/**, /api/v1/parts/**, /api/v1/inventory/**, /api/v1/part-picking/**, /api/v1/stock-adjustments/**, /api/v1/stock-takes/**, /api/v1/stock-locations/**
 
 spring:
   main:

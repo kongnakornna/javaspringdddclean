@@ -1,156 +1,112 @@
 package com.icmon.module.inventory.application.impl;
 
-import com.icmon._shared.application.GenericAuthDomainServiceImpl;
 import com.icmon.exception.SystemGlobalException;
-import com.icmon.exception.models.FailedRequestException;
 import com.icmon.module.inventory.application.interfaces.PartPickingService;
+import com.icmon.module.inventory.domain.enums.PickingStatus;
 import com.icmon.module.inventory.infrastructure.entity.PartPickingDetailEntity;
 import com.icmon.module.inventory.infrastructure.entity.PartPickingRequestEntity;
 import com.icmon.module.inventory.infrastructure.repository.PartPickingDetailRepository;
-import com.icmon.module.inventory.infrastructure.repository.PartPickingRequestRepository;
+import com.icmon.module.inventory.infrastructure.repository.PartPickingRepository;
 import com.icmon.module.inventory.presentation.dto.request.PickingCreateRequestDTO;
 import com.icmon.module.inventory.presentation.dto.response.PickingResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class PartPickingServiceImpl extends GenericAuthDomainServiceImpl implements PartPickingService {
-
-    private final PartPickingRequestRepository requestRepository;
+public class PartPickingServiceImpl implements PartPickingService {
+    private final PartPickingRepository pickingRepository;
     private final PartPickingDetailRepository detailRepository;
 
     @Override
     @Transactional
-    public PickingResponseDTO createPickingRequest(PickingCreateRequestDTO request) throws SystemGlobalException {
-        PartPickingRequestEntity entity = new PartPickingRequestEntity();
-        entity.setJobId(request.getJobId());
-        entity.setQuotationId(request.getQuotationId());
-        entity.setRequestedDate(LocalDateTime.now());
-        entity.setRequestedBy(request.getRequestedBy());
-        entity.setStatus("DRAFT");
-        entity.setPriority(request.getPriority() != null ? request.getPriority() : "NORMAL");
-        entity.setNotes(request.getNotes());
-        PartPickingRequestEntity saved = requestRepository.save(entity);
-
+    public PickingResponseDTO createPicking(PickingCreateRequestDTO request) throws SystemGlobalException {
+        PartPickingRequestEntity header = new PartPickingRequestEntity();
+        header.setJobId(request.getJobId());
+        header.setQuotationId(request.getQuotationId());
+        header.setRequestedDate(LocalDateTime.now());
+        header.setRequestedBy(getCurrentUserId());
+        header.setStatus(PickingStatus.DRAFT.name());
+        header.setPriority(request.getPriority() != null ? request.getPriority() : "NORMAL");
+        header.setNotes(request.getNotes());
+        header.setWhitelabelId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+        PartPickingRequestEntity savedHeader = pickingRepository.save(header);
+        List<PickingResponseDTO.PickingItemDTO> items = new ArrayList<>();
         if (request.getItems() != null) {
-            for (PickingCreateRequestDTO.PickingItem item : request.getItems()) {
+            for (var itemReq : request.getItems()) {
                 PartPickingDetailEntity detail = new PartPickingDetailEntity();
-                detail.setPickingRequestId(saved.getId());
-                detail.setPartId(item.getPartId());
-                detail.setRequestedQuantity(item.getRequestedQuantity());
+                detail.setPickingRequestId(savedHeader.getId());
+                detail.setPartId(itemReq.getPartId());
+                detail.setRequestedQuantity(itemReq.getQuantity());
                 detail.setPickedQuantity(0);
-                detail.setNote(item.getNote());
-                detailRepository.save(detail);
+                detail.setUnitPrice(itemReq.getUnitPrice());
+                detail.setTotalPrice(itemReq.getUnitPrice() != null && itemReq.getQuantity() != null
+                        ? itemReq.getUnitPrice().multiply(new java.math.BigDecimal(itemReq.getQuantity())) : null);
+                detail.setWhitelabelId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+                PartPickingDetailEntity savedDetail = detailRepository.save(detail);
+                items.add(new PickingResponseDTO.PickingItemDTO(savedDetail.getId(), savedDetail.getPartId(),
+                        savedDetail.getRequestedQuantity(), savedDetail.getPickedQuantity(), savedDetail.getUnitPrice()));
             }
         }
-        return toResponseDTO(saved);
+        log.info("Created picking request: {}", savedHeader.getId());
+        return PickingResponseDTO.fromEntity(savedHeader, items);
     }
 
     @Override
-    public PickingResponseDTO getPickingRequest(UUID id) throws SystemGlobalException {
-        PartPickingRequestEntity entity = requestRepository.findById(id)
-                .orElseThrow(() -> new FailedRequestException("Picking request not found with id: " + id, null));
-        return toResponseDTO(entity);
-    }
-
-    @Override
-    public PickingResponseDTO getPickingRequestByNo(String pickingNo) throws SystemGlobalException {
-        PartPickingRequestEntity entity = requestRepository.findByPickingNo(pickingNo)
-                .orElseThrow(() -> new FailedRequestException("Picking request not found with no: " + pickingNo, null));
-        return toResponseDTO(entity);
-    }
-
-    @Override
-    public Page<PickingResponseDTO> listPickingRequests(String status, UUID jobId, Pageable pageable) throws SystemGlobalException {
-        if (jobId != null) {
-            List<PartPickingRequestEntity> list = requestRepository.findByJobId(jobId);
-            return toPage(list.stream().map(this::toResponseDTO).collect(Collectors.toList()), pageable);
-        }
-        if (status != null) {
-            List<PartPickingRequestEntity> list = requestRepository.findByStatus(status);
-            return toPage(list.stream().map(this::toResponseDTO).collect(Collectors.toList()), pageable);
-        }
-        return requestRepository.findAll(pageable).map(this::toResponseDTO);
-    }
-
-    @Override
-    @Transactional
-    public PickingResponseDTO pickItems(UUID id) throws SystemGlobalException {
-        PartPickingRequestEntity entity = requestRepository.findById(id)
-                .orElseThrow(() -> new FailedRequestException("Picking request not found with id: " + id, null));
-        if (!"APPROVED".equals(entity.getStatus())) {
-            throw new FailedRequestException("Picking request must be APPROVED before picking", null);
-        }
-        entity.setStatus("PICKING");
-        requestRepository.save(entity);
-        return toResponseDTO(entity);
+    public PickingResponseDTO getPickingById(UUID id) throws SystemGlobalException {
+        PartPickingRequestEntity entity = pickingRepository.findById(id)
+                .orElseThrow(() -> new SystemGlobalException("Picking not found: " + id, null));
+        List<PartPickingDetailEntity> details = detailRepository.findByPickingRequestId(id);
+        List<PickingResponseDTO.PickingItemDTO> items = details.stream()
+                .map(d -> new PickingResponseDTO.PickingItemDTO(d.getId(), d.getPartId(),
+                        d.getRequestedQuantity(), d.getPickedQuantity(), d.getUnitPrice()))
+                .collect(Collectors.toList());
+        return PickingResponseDTO.fromEntity(entity, items);
     }
 
     @Override
     @Transactional
     public PickingResponseDTO confirmPicking(UUID id) throws SystemGlobalException {
-        PartPickingRequestEntity entity = requestRepository.findById(id)
-                .orElseThrow(() -> new FailedRequestException("Picking request not found with id: " + id, null));
-        if (!"PICKING".equals(entity.getStatus())) {
-            throw new FailedRequestException("Picking request must be in PICKING status to confirm", null);
+        PartPickingRequestEntity entity = pickingRepository.findById(id)
+                .orElseThrow(() -> new SystemGlobalException("Picking not found: " + id, null));
+        if (PickingStatus.CANCELLED.name().equals(entity.getStatus())) {
+            throw new SystemGlobalException("Cannot confirm a cancelled picking request.", null);
         }
-        entity.setStatus("PICKED");
-        entity.setPickedDate(LocalDateTime.now());
-        requestRepository.save(entity);
-        return toResponseDTO(entity);
+        entity.setStatus(PickingStatus.CONFIRMED.name());
+        entity.setConfirmedBy(getCurrentUserId());
+        entity.setConfirmedDate(LocalDateTime.now());
+        PartPickingRequestEntity saved = pickingRepository.save(entity);
+        List<PartPickingDetailEntity> details = detailRepository.findByPickingRequestId(id);
+        List<PickingResponseDTO.PickingItemDTO> items = details.stream()
+                .map(d -> new PickingResponseDTO.PickingItemDTO(d.getId(), d.getPartId(),
+                        d.getRequestedQuantity(), d.getPickedQuantity(), d.getUnitPrice()))
+                .collect(Collectors.toList());
+        log.info("Confirmed picking: {}", id);
+        return PickingResponseDTO.fromEntity(saved, items);
     }
 
     @Override
-    @Transactional
-    public void deletePickingRequest(UUID id) throws SystemGlobalException {
-        PartPickingRequestEntity entity = requestRepository.findById(id)
-                .orElseThrow(() -> new FailedRequestException("Picking request not found with id: " + id, null));
-        entity.setDeleted(true);
-        entity.setDeletedAt(LocalDateTime.now());
-        requestRepository.save(entity);
+    public List<PickingResponseDTO> getPickingByJobId(UUID jobId) throws SystemGlobalException {
+        return pickingRepository.findByJobId(jobId).stream()
+                .map(e -> {
+                    List<PartPickingDetailEntity> details = detailRepository.findByPickingRequestId(e.getId());
+                    List<PickingResponseDTO.PickingItemDTO> items = details.stream()
+                            .map(d -> new PickingResponseDTO.PickingItemDTO(d.getId(), d.getPartId(),
+                                    d.getRequestedQuantity(), d.getPickedQuantity(), d.getUnitPrice()))
+                            .collect(Collectors.toList());
+                    return PickingResponseDTO.fromEntity(e, items);
+                }).collect(Collectors.toList());
     }
 
-    private PickingResponseDTO toResponseDTO(PartPickingRequestEntity entity) {
-        PickingResponseDTO dto = new PickingResponseDTO();
-        dto.setId(entity.getId());
-        dto.setPickingNo(entity.getPickingNo());
-        dto.setJobId(entity.getJobId());
-        dto.setQuotationId(entity.getQuotationId());
-        dto.setRequestedDate(entity.getRequestedDate());
-        dto.setRequestedBy(entity.getRequestedBy());
-        dto.setStatus(entity.getStatus());
-        dto.setPriority(entity.getPriority());
-        dto.setNotes(entity.getNotes());
-        dto.setPickedBy(entity.getPickedBy());
-        dto.setPickedDate(entity.getPickedDate());
-        dto.setConfirmedBy(entity.getConfirmedBy());
-        dto.setConfirmedDate(entity.getConfirmedDate());
-        dto.setCreatedAt(entity.getCreatedAt());
-        List<PartPickingDetailEntity> details = detailRepository.findByPickingRequestId(entity.getId());
-        dto.setItems(details.stream().map(d -> {
-            PickingResponseDTO.PickingItem item = new PickingResponseDTO.PickingItem();
-            item.setId(d.getId());
-            item.setPartId(d.getPartId());
-            item.setRequestedQuantity(d.getRequestedQuantity());
-            item.setPickedQuantity(d.getPickedQuantity());
-            item.setNote(d.getNote());
-            return item;
-        }).collect(Collectors.toList()));
-        return dto;
-    }
-
-    private Page<PickingResponseDTO> toPage(List<PickingResponseDTO> list, Pageable pageable) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), list.size());
-        return new org.springframework.data.domain.PageImpl<>(list.subList(start, end), pageable, list.size());
+    private UUID getCurrentUserId() {
+        return UUID.fromString("00000000-0000-0000-0000-000000000001");
     }
 }
