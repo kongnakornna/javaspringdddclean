@@ -1,4 +1,4 @@
-package com.icmon._shared.infrastructure.repository.exception;
+package com.icmon._shared.infrastructure.mapper;
 
 import com.icmon.exception.models.InfrastructureException;
 

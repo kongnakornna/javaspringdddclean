@@ -16,7 +16,7 @@ import com.icmon._shared.infrastructure.GenericBusinessEntity;
 import com.icmon._shared.infrastructure.RepositoryAuth;
 import com.icmon._shared.infrastructure.mapper.GenericBusinessMapper;
 import com.icmon._shared.infrastructure.repository.components.GenericBusinessJpaRepositoryImpl;
-import com.icmon._shared.infrastructure.repository.exception.EntityNotFound;
+import com.icmon._shared.infrastructure.mapper.EntityNotFound;
 import com.icmon._shared.infrastructure.repository.interfaces.GenericBusinessRepository;
 import com.icmon.exception.SystemGlobalException;
 import com.icmon.exception.models.InfrastructureException;
